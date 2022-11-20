@@ -1,16 +1,9 @@
 const UserService = require('../services/UserService')
-const {validate} = require('../Utils/validation')
-const {readerAuth, adminAuth, readerIDSpecificAuth} = require('../Utils/auth')
-const {CustomError} = require('../CustomClasses/CustomError')
 const {errorHandler}  = require('../Utils/ErrorHandler')
-
+const {authorize} = require('../Utils/authAndValidation')
 const create = async(req,res) => {
     try {
-        const error = await validate(req.body,'signUp')
-        if (error.length) {
-            throw new CustomError('Bad format', 400,error)
-        }
-        
+        await authorize(req)
         const response = await UserService.create(req)
         return res.status(201).json(response)
     } catch(err) {
@@ -21,11 +14,7 @@ const create = async(req,res) => {
 
 const login = async(req,res) => {
     try {
-        const error = await validate(req.body,'signIn')
-        if (error.length) {
-            throw new CustomError('Bad format', 400,error)
-        }
-        
+        await authorize(req)
         const response = await UserService.login(req)
         return res.status(200).json(response)
     } catch(err) {
@@ -36,13 +25,7 @@ const login = async(req,res) => {
 
 const list = async(req,res) => {
     try {
-
-        const auth = await adminAuth(req)
-        console.log(auth,'auth')
-        if (!auth) {
-            throw new CustomError('Not authorized', 401)
-        }
-        
+        await authorize(req)
         const response = await UserService.list(req)
         return res.status(200).json(response)
     } catch(err) {
@@ -53,12 +36,7 @@ const list = async(req,res) => {
 
 const profile = async(req,res) => {
     try {
-
-        const auth = await readerIDSpecificAuth(req)
-        if (!auth) {
-            throw new CustomError('Not authorized', 401)
-        }
-        
+        await authorize(req)
         const response = await UserService.getProfile(req)
         return res.status(200).json(response)
     } catch(err) {
@@ -68,18 +46,9 @@ const profile = async(req,res) => {
 }
 
 const update = async(req,res) => {
+
     try {
-
-        const auth = await readerIDSpecificAuth(req)
-        if (!auth) {
-            throw new CustomError('Not authorized', 401)
-        }
-
-        const error = await validate(req.body,'update')
-        if (error.length) {
-            throw new CustomError('Bad format', 400,error)
-        }
-        
+        await authorize(req)        
         const response = await UserService.update(req)
         return res.status(201).json(response)
     } catch(err) {
@@ -90,12 +59,7 @@ const update = async(req,res) => {
 
 const remove = async(req,res) => {
     try {
-
-        const auth = await readerIDSpecificAuth(req)
-        if (!auth) {
-            throw new CustomError('Not authorized', 401)
-        }
-        
+        await authorize(req)
         const response = await UserService.remove(req)
         return res.status(200).json(response)
     } catch(err) {

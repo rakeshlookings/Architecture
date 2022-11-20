@@ -1,6 +1,6 @@
 const User = require('../models/UserModel')
 const bcrypt = require('bcrypt');
-
+const {CustomError} = require('../CustomClasses/CustomError')
 const jwt = require('jsonwebtoken')
 const saltRounds = 10;
 
@@ -107,7 +107,7 @@ const remove = async ({ body,params }) => {
     
     return {
         status: true,
-        message: "updated successfully"
+        message: "removed successfully"
     }
 }
 

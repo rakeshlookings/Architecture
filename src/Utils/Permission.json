@@ -1,0 +1,18 @@
+{
+    "user" : {
+        "register":"zeroAuth",
+        "login":"zeroAuth",
+        "update":"readerIDSpecificAuth",
+        "list-all":"adminAuth",
+        "profile":"readerIDSpecificAuth",
+        "remove":"readerIDSpecificAuth"
+    },
+    "article": {
+        "add":"adminAuth",
+        "list-all":"readerAuth",
+        "update":"adminAuth",
+        "get-one":"readerAuth",
+        "like":"readerAuth",
+        "remove":"adminAuth"
+    }
+}
