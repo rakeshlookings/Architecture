@@ -43,16 +43,7 @@ const getOne = async(req,res) => {
 const update = async(req,res) => {
     try {
 
-        const auth = await adminAuth(req)
-        if (!auth) {
-            throw new CustomError('Not authorized', 401)
-        }
-
-        const error = await validate(req.body,'update')
-        if (error.length) {
-            throw new CustomError('Bad format', 400,error)
-        }
-        
+        await authorize(req)
         const response = await ArticleService.update(req)
         return res.status(201).json(response)
     } catch(err) {
