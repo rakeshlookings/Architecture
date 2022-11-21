@@ -56,7 +56,7 @@ const markLiked = async(req,res) => {
     try {
         const auth = await authorize(req)
         const response = await ArticleService.markLiked(req,auth._id)
-        return res.status(201).json(response)
+        return res.status(200).json(response)
     } catch(err) {
         const {errorObject, code} = errorHandler(err)
         return res.status(code).json(errorObject)
