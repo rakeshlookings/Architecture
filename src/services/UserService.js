@@ -26,6 +26,7 @@ const create = async ({ body }) => {
     })
     return {
         status: true,
+        userObject,
         token: jwtToken
     }
 }
@@ -51,12 +52,12 @@ const login = async ({ body }) => {
         lastName: userInfo.lastName,
         _id: userInfo._id
     }
-    console.log(process.env.JWT_KEY)
     const jwtToken = jwt.sign(userObject,process.env.JWT_KEY,{
         expiresIn:"1h"
     })
     return {
         status: true,
+        userObject,
         token: jwtToken
     }
 }
@@ -101,10 +102,7 @@ const update = async ({ body,params }) => {
 }
 
 const remove = async ({ body,params }) => {
-    
-    
     const updateObj = await User.deleteOne({_id:params.id})
-    
     return {
         status: true,
         message: "removed successfully"

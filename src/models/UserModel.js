@@ -4,7 +4,7 @@ const { Schema } = require('mongoose')
 
 const userSchema = new Schema({
     firstName: String,
-    secondName: String,
+    lastName: String,
     email: String,
     phone: String,
     passwordHash: String,

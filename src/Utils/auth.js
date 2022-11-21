@@ -13,10 +13,12 @@ const readerAuth = (req) => {
 }
 
 const adminAuth = (req) => {
+    
     const tokenAuth = req.header('authorization')
+    
     if (!tokenAuth) { return false }
     const verified = jwt.verify(tokenAuth, jwtSecretKey)
-    console.log('verified',verified)
+    
     if (verified.role === 'Admin') {
         return verified
     }
@@ -32,7 +34,6 @@ const readerIDSpecificAuth = (req) => {
     }
     if (verified.role === 'Reader'){
         let paramsId = req.url
-        console.log('hi',paramsId)
         const arr = paramsId.split('/')
         if (arr.length === 3){
             paramsId = arr[2]

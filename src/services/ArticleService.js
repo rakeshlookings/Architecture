@@ -30,7 +30,10 @@ const list = async ({ query }) => {
 
 const getOne = async ({ params },userId) => {
     const article = await Article.findOne({_id: params.id},{createdAt:0,updatedAt:0})
-    await Article.updateOne({_id: params.id}, { $inc: { readCount: 1 }, $push: { readBy: userId } })
+    const existViewed = await Article.count({_id: params.id, readBy : userId})
+    if (!existViewed) {
+        await Article.updateOne({_id: params.id}, { $inc: { readCount: 1 }, $push: { readBy: userId } })
+    }
     return {
         status: true,
         users: article
@@ -52,11 +55,17 @@ const update = async ({ body,params }) => {
 
 
 const markLiked = async ({ params }, userId) => {
-    
-    const updateObj = await Article.updateOne({_id: params.id}, { $inc: { likedCount: 1 }, $push: { likedBy: userId } })
+    const existLikes = await Article.count({_id: params.id, likedBy : userId})
+    if (!existLikes){
+        const updateObj = await Article.updateOne({_id: params.id}, { $inc: { likedCount: 1 }, $push: { likedBy: userId } })
+        return {
+            status: true,
+            message: "updated successfully"
+        }
+    }
     return {
-        status: true,
-        message: "updated successfully"
+        status: false,
+        message: "already liked"
     }
 }
 

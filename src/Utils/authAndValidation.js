@@ -31,7 +31,6 @@ const authorize = async (req) => {
     if (!verified) {
         throw new CustomError('Not Authorized', 401)
     }
-    console.log(errors)
     if (errors.length){
         throw new CustomError('Bad format', 400, errors)
     }

@@ -10,7 +10,6 @@ const validate = async (req) => {
     if (criteriaObject && url[1]){
         criteriaObject = criteriaObject[url[1]]
     }
-    console.log('xx',criteriaObject)
     // return errors
     if (!criteriaObject) {
         return errors
@@ -39,13 +38,13 @@ const stringValidation = (criteria, string, parameter) => {
         return `${parameter} not provided`
     }
     if (string && criteria.max && string.length > Number(criteria.max)) {
-        return `${parameter} should be of maximum ${criteria.max}`
+        return `${parameter} should be of maximum ${criteria.max} character length`
     }
     if (string &&  criteria.max && string.length < Number(criteria.min)) {
-        return `${parameter} should be of minimum ${criteria.min}`
+        return `${parameter} should be of minimum ${criteria.min} character length`
     }
     if (string && criteria.exact && string.length !== Number(criteria.exact)) {
-        return `${parameter} should be exact ${criteria.exact} length`
+        return `${parameter} should be exact ${criteria.exact} character length`
     }
     if (string && criteria.format) {
         switch (criteria.format) {
